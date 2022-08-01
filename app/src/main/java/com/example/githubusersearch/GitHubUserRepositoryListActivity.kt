@@ -21,18 +21,13 @@ class GitHubUserRepositoryListActivity : AppCompatActivity() {
         val id = intent.getStringExtra("userid")!!
         Log.d("mytag", id)
 
-        val name = findViewById<TextView>(R.id.name)
-        val description = findViewById<TextView>(R.id.description)
-        val forksCount = findViewById<TextView>(R.id.forks_count)
-        val watchersCount = findViewById<TextView>(R.id.watchers_count)
-        val stargazersCount = findViewById<TextView>(R.id.stargazers_count)
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.github.com")
             .addConverterFactory(
                 GsonConverterFactory.create())
             .build()
         val apiService = retrofit.create(GitHubAPIService::class.java)
-        val apiCallForData = apiService.getRepos(id, "token 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")
+        val apiCallForData = apiService.getRepos(id, "token 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")
         apiCallForData.enqueue(object: Callback<List<GitHubUserRepo>> {
             override fun onResponse(
                 call: Call<List<GitHubUserRepo>>,

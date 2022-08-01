@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         // 호출할 수 있는 준비를 끝냄
         findViewById<Button>(R.id.search_btn).setOnClickListener {
             val id = userName.text.toString()
-            val apiCallForData = apiService.getGitHubInfo(id, "token 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")
+            val apiCallForData = apiService.getGitHubInfo(id, "token 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")
             apiCallForData.enqueue(object : Callback<GitHubResponseGSON> {
                 override fun onResponse(
                     call: Call<GitHubResponseGSON>,

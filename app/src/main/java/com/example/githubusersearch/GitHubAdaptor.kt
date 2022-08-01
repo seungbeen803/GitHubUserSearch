@@ -1,5 +1,7 @@
 package com.example.githubusersearch
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +28,14 @@ class GitHubAdaptor(val datalist: List<GitHubUserRepo>)
         holder.view.findViewById<TextView>(R.id.watchers_count).text = "${data.watchers_count}"
         holder.view.findViewById<TextView>(R.id.stargazers_count).text = "${data.stargazers_count}"
 
+        // 암시적 인텐트
+        holder.view.setOnClickListener {
+            var intent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse(data.html_url)
+            )
+            holder.view.context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {
