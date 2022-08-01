@@ -3,6 +3,7 @@ package com.example.githubusersearch
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.annotations.SerializedName
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -23,9 +24,13 @@ data class GitHubResponseGSON(
     // 값이 없을 수도 있기 때문
     val name: String?,
     val followers: Int,
-    val following: Int
+    val following: Int,
+    // _를 쓰기 위해서 SerializedName을 사용
+    @SerializedName("avatar_url")
+    val avatarUrl: String
 )
 
+/*
 class GitHubResponseDeserializerGSON : JsonDeserializer<GitHubResponseGSON> {
     override fun deserialize(
         json: JsonElement?,
@@ -45,4 +50,4 @@ class GitHubResponseDeserializerGSON : JsonDeserializer<GitHubResponseGSON> {
         return GitHubResponseGSON(login!!, id!!, name!!, followers!!, following!!)
     }
 
-}
+}*/

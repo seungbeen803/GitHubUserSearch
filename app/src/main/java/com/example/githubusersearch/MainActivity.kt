@@ -3,10 +3,8 @@ package com.example.githubusersearch
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import com.bumptech.glide.Glide
 import com.google.gson.GsonBuilder
 import retrofit2.Call
 import retrofit2.Callback
@@ -21,6 +19,7 @@ class MainActivity : AppCompatActivity() {
 
         val userName = findViewById<EditText>(R.id.userName)
         val resultText = findViewById<TextView>(R.id.result)
+        val profileImage = findViewById<ImageView>(R.id.avatar_url)
         // 바깥에서 만드는 것이 좋음
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.github.com")
@@ -43,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         // 호출할 수 있는 준비를 끝냄
         findViewById<Button>(R.id.search_btn).setOnClickListener {
             val id = userName.text.toString()
-            val apiCallForData = apiService.getGitHubInfo(id, "token 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")
+            val apiCallForData = apiService.getGitHubInfo(id, "token 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")
             apiCallForData.enqueue(object : Callback<GitHubResponseGSON> {
                 override fun onResponse(
                     call: Call<GitHubResponseGSON>,
@@ -54,7 +53,11 @@ class MainActivity : AppCompatActivity() {
                     Log.d("mytag", data.toString())
                     
                     // "${}"이 자체가 String이기 때문에 간단하게 작성 가능
-                    resultText.text = "${data.login}\n${data.id}"
+                    resultText.text = "login: ${data.login}\nid: ${data.id}\nname: ${data.name}\nfollowers: ${data.followers}\nfollowing: ${data.following}"
+                    // 역직렬화로 가져온 이미지 url 표시
+                    // this@MainActivity -> 바깥에 MainActivity의 this를 가리키기 위함
+                    // 이 안의 this는 object의 Callback 받기 때문에 this@MainActivity 이렇게 작성
+                    Glide.with(this@MainActivity).load(data.avatarUrl).into(profileImage);
                 }
 
                 override fun onFailure(call: Call<GitHubResponseGSON>, t: Throwable) {
@@ -64,6 +67,7 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         }
+
 
     }
 }
