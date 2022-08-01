@@ -42,22 +42,30 @@ class MainActivity : AppCompatActivity() {
         // 호출할 수 있는 준비를 끝냄
         findViewById<Button>(R.id.search_btn).setOnClickListener {
             val id = userName.text.toString()
-            val apiCallForData = apiService.getGitHubInfo(id, "token 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")
+            val apiCallForData = apiService.getGitHubInfo(id, "token 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")
             apiCallForData.enqueue(object : Callback<GitHubResponseGSON> {
                 override fun onResponse(
                     call: Call<GitHubResponseGSON>,
                     response: Response<GitHubResponseGSON>
                 ) {
-                    // 데이터 가져옴
-                    val data = response.body()!!
-                    Log.d("mytag", data.toString())
-                    
-                    // "${}"이 자체가 String이기 때문에 간단하게 작성 가능
-                    resultText.text = "login: ${data.login}\nid: ${data.id}\nname: ${data.name}\nfollowers: ${data.followers}\nfollowing: ${data.following}"
-                    // 역직렬화로 가져온 이미지 url 표시
-                    // this@MainActivity -> 바깥에 MainActivity의 this를 가리키기 위함
-                    // 이 안의 this는 object의 Callback 받기 때문에 this@MainActivity 이렇게 작성
-                    Glide.with(this@MainActivity).load(data.avatarUrl).into(profileImage);
+                    // statsWith -> 문자열의 첫 글자를 찾는 것
+                    if (response.code().toString().startsWith("4")){
+                        Toast.makeText(this@MainActivity,
+                        "유저가 없습니다",
+                        Toast.LENGTH_SHORT).show()
+                    }else{
+                        Log.d("mytag",response.code().toString())
+                        // 데이터 가져옴
+                        val data = response.body()!!
+                        Log.d("mytag", data.toString())
+
+                        // "${}"이 자체가 String이기 때문에 간단하게 작성 가능
+                        resultText.text = "login: ${data.login}\nid: ${data.id}\nname: ${data.name}\nfollowers: ${data.followers}\nfollowing: ${data.following}"
+                        // 역직렬화로 가져온 이미지 url 표시
+                        // this@MainActivity -> 바깥에 MainActivity의 this를 가리키기 위함
+                        // 이 안의 this는 object의 Callback 받기 때문에 this@MainActivity 이렇게 작성
+                        Glide.with(this@MainActivity).load(data.avatarUrl).into(profileImage);
+                    }
                 }
 
                 override fun onFailure(call: Call<GitHubResponseGSON>, t: Throwable) {
