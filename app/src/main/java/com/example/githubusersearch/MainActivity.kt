@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         // 바깥에서 만드는 것이 좋음
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.github.com")
-            // 선언을 하면 역직렬화 할 때에 Gson을 사용함 (역직렬화 방법).
+            // 선언을 하면 역직렬화 할 때에 Gson을 사용함 (역직렬화 방법)
             .addConverterFactory(
                 GsonConverterFactory.create(
                     GsonBuilder().registerTypeAdapter(
