@@ -5,14 +5,15 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Path
 import java.lang.reflect.Type
-
 interface GitHubAPIService {
 // https://api.github.com/users/seungbeen803
     @GET("/users/{id}")
     fun getGitHubInfo(
-        @Path("id") id: String
+        @Path("id") id: String,
+        @Header("Authorization") pat: String
     ) : Call<GitHubResponseGSON>
 }
 
