@@ -1,5 +1,6 @@
 package com.example.githubusersearch
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         // 호출할 수 있는 준비를 끝냄
         findViewById<Button>(R.id.search_btn).setOnClickListener {
             val id = userName.text.toString()
-            val apiCallForData = apiService.getGitHubInfo(id, "token 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")
+            val apiCallForData = apiService.getGitHubInfo(id, "token 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")
             apiCallForData.enqueue(object : Callback<GitHubResponseGSON> {
                 override fun onResponse(
                     call: Call<GitHubResponseGSON>,
@@ -74,8 +75,18 @@ class MainActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT).show()
                 }
             })
+
+
         }
 
-
+        findViewById<Button>(R.id.to_user_repo_search).setOnClickListener {
+            // intent -> 다른 액티비티로 이동하도록 해줌
+            // 액티비티로 이동해야하기 때문에 이동할 액티비티의 이름을 넣음
+            val intent = Intent(this, GitHubUserRepositoryListActivity::class.java)
+            // id의 값을 넘겨줌
+            // id 값을 가져오는 EditText를 가져옴
+            intent.putExtra("userid", userName.text.toString())
+            startActivity(intent)
+        }
     }
 }

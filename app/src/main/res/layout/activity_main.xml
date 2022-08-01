@@ -27,6 +27,12 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/to_user_repo_search"
+        android:text="유저 저장소 검색"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <ImageView
         android:id="@+id/avatar_url"
         android:layout_width="100dp"
@@ -36,4 +42,6 @@
         android:id="@+id/result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+
 </LinearLayout>

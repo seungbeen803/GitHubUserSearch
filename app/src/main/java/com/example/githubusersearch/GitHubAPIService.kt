@@ -14,9 +14,28 @@ interface GitHubAPIService {
     @GET("/users/{id}")
     fun getGitHubInfo(
         @Path("id") id: String,
+        // token을 넣으려고 필요함
         @Header("Authorization") pat: String
     ) : Call<GitHubResponseGSON>
+
+    @GET("/users/{userId}/repos")
+    fun getRepos(
+        @Path("userId") id: String,
+        @Header("Authorization") pat: String
+    // 받는 값이 배열이기 때문에 List로 값을 받는다
+    // 리포지토리에 있는 정보를 담기 위해서
+    ) : Call<List<GitHubUserRepo>>
 }
+
+data class GitHubUserRepo(
+    val name: String,
+    val html_url: String,
+    // 저장소에 대한 설명
+    val description: String?,
+    val forks_count: Int,
+    val watchers_count: Int,
+    val stargazers_count: Int
+)
 
 data class GitHubResponseGSON(
     val login: String,
@@ -29,6 +48,7 @@ data class GitHubResponseGSON(
     @SerializedName("avatar_url")
     val avatarUrl: String
 )
+
 
 /*
 class GitHubResponseDeserializerGSON : JsonDeserializer<GitHubResponseGSON> {
