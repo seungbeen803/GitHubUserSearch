@@ -23,7 +23,7 @@
             android:layout_weight="3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="#D61919"/>
+            android:backgroundTint="#FD8585"/>
 
     </LinearLayout>
 

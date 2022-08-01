@@ -19,7 +19,11 @@ interface GitHubAPIService {
 
 data class GitHubResponseGSON(
     val login: String,
-    val id: Int
+    val id: Int,
+    // 값이 없을 수도 있기 때문
+    val name: String?,
+    val followers: Int,
+    val following: Int
 )
 
 class GitHubResponseDeserializerGSON : JsonDeserializer<GitHubResponseGSON> {
@@ -33,9 +37,12 @@ class GitHubResponseDeserializerGSON : JsonDeserializer<GitHubResponseGSON> {
         // 어떤 타입인지 모르기 때문에 직접적으로 타입을 지정해준다
         val id = root?.getAsJsonPrimitive("id")?.asInt
         val login = root?.getAsJsonPrimitive("login")?.asString
+        val name = root?.getAsJsonPrimitive("name")?.asString
+        val followers = root?.getAsJsonPrimitive("followers")?.asInt
+        val following = root?.getAsJsonPrimitive("following")?.asInt
 
         // 값이 받드시 있다는 걸 가정하고 있기 때문에 !!
-        return GitHubResponseGSON(login!!, id!!)
+        return GitHubResponseGSON(login!!, id!!, name!!, followers!!, following!!)
     }
 
 }

@@ -27,11 +27,13 @@ class MainActivity : AppCompatActivity() {
             // 선언을 하면 역직렬화 할 때에 Gson을 사용함 (역직렬화 방법)
             .addConverterFactory(
                 GsonConverterFactory.create(
+                    /*
                     GsonBuilder().registerTypeAdapter(
                         // 역직렬화할 클래스를 지정
                         GitHubResponseGSON::class.java,
                         GitHubResponseDeserializerGSON()
                     ).create()
+                     */
                 )
             ).build()
 
@@ -41,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         // 호출할 수 있는 준비를 끝냄
         findViewById<Button>(R.id.search_btn).setOnClickListener {
             val id = userName.text.toString()
-            val apiCallForData = apiService.getGitHubInfo(id)
+            val apiCallForData = apiService.getGitHubInfo(id, "token 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")
             apiCallForData.enqueue(object : Callback<GitHubResponseGSON> {
                 override fun onResponse(
                     call: Call<GitHubResponseGSON>,
