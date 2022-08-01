@@ -29,9 +29,11 @@ class GitHubResponseDeserializerGSON : JsonDeserializer<GitHubResponseGSON> {
     ): GitHubResponseGSON {
         val root = json?.asJsonObject
 //      getter를 속성처럼 접근할 수 있도록 바꿔준다
-        val login = root?.getAsJsonPrimitive("login")?.asString
+        // 어떤 타입인지 모르기 때문에 직접적으로 타입을 지정해준다
         val id = root?.getAsJsonPrimitive("id")?.asInt
+        val login = root?.getAsJsonPrimitive("login")?.asString
 
+        // 값이 받드시 있다는 걸 가정하고 있기 때문에 !!
         return GitHubResponseGSON(login!!, id!!)
     }
 

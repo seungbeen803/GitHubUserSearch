@@ -19,30 +19,35 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val resultText = findViewById<TextView>(R.id.result)
         val userName = findViewById<EditText>(R.id.userName)
+        val resultText = findViewById<TextView>(R.id.result)
+        // 바깥에서 만드는 것이 좋음
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.github.com")
             // 선언을 하면 역직렬화 할 때에 Gson을 사용함 (역직렬화 방법).
             .addConverterFactory(
                 GsonConverterFactory.create(
                     GsonBuilder().registerTypeAdapter(
+                        // 역직렬화할 클래스를 지정
                         GitHubResponseGSON::class.java,
                         GitHubResponseDeserializerGSON()
                     ).create()
                 )
             ).build()
 
+        // 클래스 정보를 읽어서 메서드의 정보나 파라미터 등을 알 수 있음
+        // Class<GitHubAPIService> = GitHubAPIService::class.java
+        val apiService = retrofit.create(GitHubAPIService::class.java)
         // 호출할 수 있는 준비를 끝냄
         findViewById<Button>(R.id.search_btn).setOnClickListener {
             val id = userName.text.toString()
-            val apiService = retrofit.create(GitHubAPIService::class.java)
-            val apiCallForData = apiService.getGitHubInfo(id!!)
+            val apiCallForData = apiService.getGitHubInfo(id)
             apiCallForData.enqueue(object : Callback<GitHubResponseGSON> {
                 override fun onResponse(
                     call: Call<GitHubResponseGSON>,
                     response: Response<GitHubResponseGSON>
                 ) {
+                    // 데이터 가져옴
                     val data = response.body()!!
                     Log.d("mytag", data.toString())
                     
