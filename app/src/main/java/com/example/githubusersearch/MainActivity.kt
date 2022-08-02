@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.*
 import com.bumptech.glide.Glide
 import com.google.gson.GsonBuilder
@@ -43,7 +44,10 @@ class MainActivity : AppCompatActivity() {
         // 호출할 수 있는 준비를 끝냄
         findViewById<Button>(R.id.search_btn).setOnClickListener {
             val id = userName.text.toString()
-            val apiCallForData = apiService.getGitHubInfo(id, "token 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")
+            if(id.isBlank()){
+                Toast.makeText(this, "유저 아이디를 입력하세요.", Toast.LENGTH_SHORT).show()
+            }
+            val apiCallForData = apiService.getGitHubInfo(id, "token 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")
             apiCallForData.enqueue(object : Callback<GitHubResponseGSON> {
                 override fun onResponse(
                     call: Call<GitHubResponseGSON>,
@@ -57,6 +61,8 @@ class MainActivity : AppCompatActivity() {
                     }else{
                         Log.d("mytag",response.code().toString())
                         // 데이터 가져옴
+                        // 숨긴 것을 보여주게 하는 기능을 함
+                        findViewById<Button>(R.id.to_user_repo_search).visibility = View.VISIBLE
                         val data = response.body()!!
                         Log.d("mytag", data.toString())
 

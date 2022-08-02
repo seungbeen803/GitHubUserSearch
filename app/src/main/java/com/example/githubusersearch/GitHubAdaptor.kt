@@ -40,6 +40,7 @@ class GitHubAdaptor(val datalist: List<GitHubUserRepo>)
 
     override fun getItemCount(): Int {
         // 전달한 리스트의 길이 리턴
+        // 전체 목록에서 표시해야할 데이터의 개수이기 때문
         return datalist.size
     }
 

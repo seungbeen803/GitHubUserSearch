@@ -29,6 +29,7 @@
 
     <Button
         android:id="@+id/to_user_repo_search"
+        android:visibility="gone"
         android:text="유저 저장소 검색"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

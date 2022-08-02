@@ -27,7 +27,7 @@ class GitHubUserRepositoryListActivity : AppCompatActivity() {
                 GsonConverterFactory.create())
             .build()
         val apiService = retrofit.create(GitHubAPIService::class.java)
-        val apiCallForData = apiService.getRepos(id, "token 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")
+        val apiCallForData = apiService.getRepos(id, "token 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")
         apiCallForData.enqueue(object: Callback<List<GitHubUserRepo>> {
             override fun onResponse(
                 call: Call<List<GitHubUserRepo>>,
@@ -36,6 +36,7 @@ class GitHubUserRepositoryListActivity : AppCompatActivity() {
                 val data = response.body()!!
                 Log.d("mytag", data.toString())
                 val listView = findViewById<RecyclerView>(R.id.user_Recycler)
+                // setHasFixedSize의 기능은 RecyclerView의 크기 변경이 일정하다는 것을 사용자의 입력으로 확인한다.ㄴ
                 listView.setHasFixedSize(true)
                 val adaptor = GitHubAdaptor(data)
                 listView.layoutManager = LinearLayoutManager(this@GitHubUserRepositoryListActivity)
